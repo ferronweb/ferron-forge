@@ -6,17 +6,17 @@ use std::io::{self, Write};
 use std::path::PathBuf;
 use std::str::FromStr;
 
-use cargo::GlobalContext;
 use cargo::core::compiler::{CompileKind, CompileMode, CompileTarget, UnitOutput};
 use cargo::core::resolver::CliFeatures;
 use cargo::core::{Verbosity, Workspace};
 use cargo::ops::{CompileOptions, Packages};
+use cargo::GlobalContext;
 use clap::Parser;
 use gix::interrupt::IS_INTERRUPTED;
 use toml::Table;
 use walkdir::WalkDir;
-use zip::ZipWriter;
 use zip::write::SimpleFileOptions;
+use zip::ZipWriter;
 
 // Struct for command-line arguments using `clap`
 /// A compilation tool for easy compiling of Ferron web server
@@ -191,14 +191,10 @@ fn compile(
     if let Ok(toolchain) = get_rustup_toolchain(rustup_home.clone()) {
       #[allow(irrefutable_let_patterns)]
       if let Ok(toolchain) = OsString::from_str(&toolchain) {
-        unsafe {
-          std::env::set_var("RUSTUP_TOOLCHAIN", toolchain);
-        }
+        std::env::set_var("RUSTUP_TOOLCHAIN", toolchain);
       }
     }
-    unsafe {
-      std::env::set_var("RUSTUP_HOME", rustup_home.into_os_string());
-    }
+    std::env::set_var("RUSTUP_HOME", rustup_home.into_os_string());
   }
 
   // Initialize Cargo's global context and workspace
