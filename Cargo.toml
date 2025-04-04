@@ -1,0 +1,18 @@
+[package]
+name = "ferron-forge"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.97"
+cargo = "0.87.0"
+clap = { version = "4.5.35", features = ["derive"] }
+gix = { version = "0.71.0", features = ["blocking-http-transport-reqwest-native-tls", "blocking-network-client", "worktree-mutation"] }
+home = "0.5.11"
+tempfile = "3.19.1"
+toml = "0.8.20"
+walkdir = "2.5.0"
+zip = "2.6.0"
+
+[dev-dependencies]
+rusty-hook = "0.11.2"

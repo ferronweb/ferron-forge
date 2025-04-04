@@ -1,0 +1,15 @@
+# Compiled binaries and generated documentation
+/target/
+
+# Generated ZIP file
+/ferron-custom.zip
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# Temporary files used by the editor
+*.swp
+*.swo
