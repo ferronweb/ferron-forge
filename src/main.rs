@@ -222,5 +222,8 @@ fn compile(
   let compilation = cargo::ops::compile(&workspace, &compile_options)?;
 
   // Return the binaries and host/target triple
-  Ok((compilation.binaries, compilation.host))
+  Ok((
+    compilation.binaries,
+    target.map(|s| s.to_string()).unwrap_or(compilation.host),
+  ))
 }
