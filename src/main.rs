@@ -111,7 +111,7 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     let path = entry.path();
     let name = path.strip_prefix(&webroot_path)?;
     let final_name = PathBuf::from("wwwroot").as_path().join(name);
-    let path_as_string = final_name.as_path().to_str().map(str::to_owned);
+    let path_as_string = final_name.as_path().to_str().map(|s| s.replace("\\", "/"));
 
     if let Some(path_as_string) = path_as_string {
       if path.is_file() {
