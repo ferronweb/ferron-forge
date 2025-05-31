@@ -5,14 +5,18 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.97"
-cargo = "0.87.0"
+cargo = "0.88.0"
 clap = { version = "4.5.35", features = ["derive"] }
-gix = { version = "0.71.0", features = ["blocking-http-transport-reqwest-native-tls", "blocking-network-client", "worktree-mutation"] }
+gix = { version = "0.72.1", features = [
+    "blocking-http-transport-reqwest-native-tls",
+    "blocking-network-client",
+    "worktree-mutation",
+] }
 home = "0.5.11"
 tempfile = "3.19.1"
 toml = "0.8.20"
 walkdir = "2.5.0"
-zip = "2.6.0"
+zip = "4.0.0"
 
 [dev-dependencies]
 rusty-hook = "0.11.2"
