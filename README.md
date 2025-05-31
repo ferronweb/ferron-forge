@@ -10,13 +10,14 @@ A compilation tool for easy compiling of Ferron web server
 Usage: ferron-forge [OPTIONS]
 
 Options:
-  -v, --ferron-version <FERRON_VERSION>  The Ferron version or Git reference name to compile [default: main]
-  -m, --modules <MODULES>                List of modules to enable
-  -t, --target <TARGET>                  Target triple
-  -r, --repository <REPOSITORY>          Git repository URL containing Ferron's source code [default: https://github.com/ferronweb/ferron.git]
-  -o, --output <OUTPUT>                  Path to the output ZIP archive [default: ferron-custom.zip]
-  -h, --help                             Print help
-  -V, --version                          Print version
+  -v, --ferron-version <FERRON_VERSION>    The Ferron version or Git reference name to compile [default: main]
+  -m, --modules <MODULES>                  List of modules to enable
+  -M, --modules-include <MODULES_INCLUDE>  List of modules to enable (inclusive with default modules)
+  -t, --target <TARGET>                    Target triple for cross-compilation
+  -r, --repository <REPOSITORY>            Git repository URL containing Ferron's source code [default: https://github.com/ferronweb/ferron.git]
+  -o, --output <OUTPUT>                    Path to the output ZIP archive [default: ferron-custom.zip]
+  -h, --help                               Print help
+  -V, --version                            Print version
 ```
 
 ## Installation

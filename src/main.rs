@@ -32,6 +32,10 @@ struct Args {
   #[arg(short, long)]
   modules: Option<Vec<String>>,
 
+  /// List of modules to enable (inclusive with default modules)
+  #[arg(short = 'M', long)]
+  modules_include: Option<Vec<String>>,
+
   /// Target triple for cross-compilation
   #[arg(short, long)]
   target: Option<String>,
@@ -72,6 +76,7 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     workspace_directory.to_path_buf(),
     args.target.as_ref().map(|s| s as &str),
     args.modules.as_deref(),
+    args.modules_include.as_deref(),
   )?;
 
   println!("Creating ZIP archive...");
@@ -93,13 +98,26 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     io::copy(&mut binary_file, &mut zip)?;
   }
 
-  // Add default configuration file to ZIP
-  zip.start_file("ferron.yaml", zip_options)?;
-  zip.write_all(
-    r#"global:
-  wwwroot: wwwroot"#
-      .as_bytes(),
-  )?;
+  // Add default configuration file to the ZIP
+  let mut ferron_yaml_pathbuf = workspace_directory.to_path_buf();
+  ferron_yaml_pathbuf.push("ferron.yaml");
+  if fs::exists(ferron_yaml_pathbuf).unwrap_or(false) {
+    zip.start_file("ferron.yaml", zip_options)?;
+    zip.write_all(
+      r#"global:
+      wwwroot: wwwroot"#
+        .as_bytes(),
+    )?;
+  } else {
+    zip.start_file("ferron.kdl", zip_options)?;
+    zip.write_all(
+      r#"* {
+      default_https_port #null
+      root "wwwroot"
+    }"#
+        .as_bytes(),
+    )?;
+  }
 
   // Add `wwwroot` static assets to the ZIP
   let mut webroot_path = workspace_directory.to_path_buf();
@@ -167,8 +185,14 @@ fn compile(
   mut workspace_directory: PathBuf,
   target: Option<&str>,
   modules: Option<&[String]>,
+  modules_include: Option<&[String]>,
 ) -> Result<(Vec<UnitOutput>, String), Box<dyn Error + Send + Sync>> {
   let default_modules = modules.is_none();
+  let modules = if modules.is_none() {
+    modules_include
+  } else {
+    modules
+  };
 
   // Format the features for the CLI (e.g., "ferron/cgi", "ferron/cache")
   let modules_as_features = modules
